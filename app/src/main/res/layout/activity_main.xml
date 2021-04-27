@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapter"
+            type="com.io.app.demo.adapter.ImageAdapter" />
+
+        <variable
+            name="viewHandler"
+            type="com.io.app.demo.callback.ViewItemClickHandler" />
+
+        <variable
+            name="viewModel"
+            type="com.io.app.demo.ui.MainViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.MainActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_images" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".55" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_black_rect"
+            android:gravity="center"
+            android:onClick="@{viewHandler::onItemClick}"
+            android:padding="10dp"
+            android:text="@{viewModel.observer.downloadingStarted? `Downloading Started` : `Start Download`}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_download">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sync"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@{viewModel.observer.async? @drawable/shape_black_rect : @drawable/shape_blue_rect}"
+                android:gravity="center"
+                android:onClick="@{viewHandler::onItemClick}"
+                android:padding="10dp"
+                android:text="Sync"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_async"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@{viewModel.observer.async? @drawable/shape_blue_rect : @drawable/shape_black_rect}"
+                android:gravity="center"
+                android:onClick="@{viewHandler::onItemClick}"
+                android:padding="10dp"
+                android:text="Async"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
